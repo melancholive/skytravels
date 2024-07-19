@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Air Ticket Reservation System</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="navigation flexblock">
+            <div class="home-link">
+                <a href="/">SkyTravels ✈︎</a>
+            </div>
+            <div class="misc-link"></div>
+        </div>
+
+        <div class="rounded-div">
+          <div>
+              <h1 class="flexblock">Customer Account Login</h1>
+              <div class="flexblock">
+                <div>
+                  <a href="/loginAgent">Booking Agent Login</a>
+                </div>
+                <div>
+                  | <a href="/loginStaff">Airline Staff Login</a>
+                </div>
+              </div>
+          </div>
+                      
+          <form action="/loginAuth" method="POST" class="flexblock">
+              <div class="flexblock">
+                <div>
+                  <div class="flexblock">
+                    <div>
+                        <label for="email">Email Address</label><br/>
+                        <input type="text" name="email" placeholder="email" required/>
+                    </div>
+                    <div>
+                        <label for="password">Password</label><br/>
+                        <input type="password" name="password" placeholder="password" required/>
+                    </div>
+                    <div>
+                      <br/>
+                      <input type="submit" value = "Login" />
+                    </div>
+                  </div>
+                  <div>
+                    <div class="left">Don't have an account? <a href="/register">Register Here</a></div>   
+                    {% if error %}
+                    <p class="error"><strong>Error:</strong> {{error}}</p>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>              
+          </form>
+
+      </div>
+
+    </div>
+</body>
+</html>

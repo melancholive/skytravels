@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Air Ticket Reservation System</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="navigation flexblock">
+            <div class="home-link">
+                <a href="/view">SkyTravels ✈︎</a>
+            </div>
+                <div class="misc-link">
+                    <a href="/analytics">Analytics</a>
+                    <a href="/logout">Logout</a>
+                </div>
+        </div>
+        {% if account == 'operator' or account == 'admin-operator' %}
+            <div class="rounded-div">
+                <h1>Change Status of Flight</h1>
+                <form action="/changeFlight" method="POST" class="flexblock">
+                    <div>
+                        <label for="flight">Flight Number</label><br/>
+                        <input type="number" name="flight" min="1" required/>
+                    </div>
+                    <div>
+                        <label for="status">Flight Status</label><br/>
+                            <select name="status" required>
+                                <option disabled selected value>status</option>
+                                <option value="upcoming">upcoming</option>
+                                <option value="in-progress">in-progress</option>
+                                <option value="on-time">on-time</option>
+                                <option value="delayed">delayed</option>
+                                <option value="cancelled">cancelled</option>
+                            </select>
+                    </div>
+                    <div>
+                        <br/> 
+                        <input type="submit" value = Change />
+                    </div>
+                </form>
+                {% if msgStatus %}
+                    <p class="error">{{msgStatus}}</p>
+                {% endif %}
+                {% if errorStatus %}
+                    <p class="error"><strong>Error:</strong> {{errorStatus}}</p>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        {% if account == 'admin' or account == 'admin-operator' %}
+            <div class="rounded-div flexblock">
+                <h1>Create New Flight</h1>
+                <form action="/newFlight" method="POST" class="flexblock">
+                    <div class="flexblock">
+                        <div>
+                            <label for="plane">Airplane ID</label><br/>
+                            <input type="number" name="plane" placeholder="airplane id" min="1"/>
+                        </div>
+                        <div>
+                            <label for="price">Flight Price</label><br/>
+                            <input type="number" name="price" placeholder="flight price" min="0" required/>
+                        </div>
+                        <div>
+                            <label for="status">Flight Status</label><br/>
+                            <select name="status" required>
+                                <option selected value="upcoming">upcoming</option>
+                                <option value="in-progress">in-progress</option>
+                                <option value="on-time">on-time</option>
+                                <option value="delayed">delayed</option>
+                                <option value="cancelled">cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="flexblock">
+                        <div>
+                            <label for="departAirport">Departure Airport</label><br/>
+                            <input type="text" name="departAirport" placeholder="departure airport" required/>
+                        </div>
+                        <div>
+                            <label for="departDate">Departure Date</label><br/>
+                            <input type="date" name="departDate" required/>
+                        </div>
+                        <div>
+                            <label for="departTime">Departure Time</label><br/>
+                            <input type="time" name="departTime" value="00:00:00" required/>
+                        </div>
+                    </div>
+                    
+                    <div class="flexblock">
+                        <div>
+                            <label for="arrivalAirport">Arrival Airport</label><br/>
+                            <input type="text" name="arrivalAirport" placeholder="arrival airport" required/>
+                        </div>
+                        <div>
+                            <label for="arrivalDate">Arrival Date</label><br/>
+                            <input type="date" name="arrivalDate" required/>
+                        </div>
+                        <div>
+                            <label for="arrivalTime">Arrival Time</label><br/>
+                            <input type="time" name="arrivalTime" value="00:00:00" required/>
+                        </div>
+                        <div>
+                            <br/> 
+                            <input type="submit" value = "Create Flight"/>
+                        </div>
+                        
+                    </div>
+                    
+                </form>
+                {% if errorNew %}
+                    <p class="error"><strong>Error:</strong> {{errorNew}}</p>
+                {% elif msgNew %}
+                    <p class="error">{{msgNew}}</p>
+                {% endif %}
+            </div>
+
+            <div class="rounded-div">
+                <h1>Add New Airplane</h1>
+                <form action="/newPlane" method="POST" class="flexblock">
+                    <div>
+                        <label for="seats">Number of Seats</label><br/>
+                        <input type="number" name="seats" min="1" required/>
+                    </div>
+                    <div>
+                        <br/> 
+                        <input type="submit" value = "Add Airplane"/>
+                    </div>
+                </form>
+                {% if msgPlane %}
+                    <p class="error">{{msgPlane}}</p>
+                {% endif %}
+            </div>
+
+            <div class="rounded-div">
+                <h1>Add New Airport</h1>
+                <form action="/newAirport" method="POST" class="flexblock">
+                    <div>
+                        <label for="airport">Airport Name</label><br/>
+                        <input type="text" name="airport" maxLength="4" required/>
+                    </div>
+                    <div>
+                        <label for="city">Airport City</label><br/>
+                        <input type="text" name="city" required/>
+                    </div>
+                    <div>
+                        <br/> 
+                        <input type="submit" value = "Add Airport"/>
+                    </div>
+                </form>
+                {% if msgAirport %}
+                    <p class="error">{{msgAirport}}</p>
+                {% endif %}
+                {% if errorAirport %}
+                    <p class="error">Error: {{errorAirport}}</p>
+                {% endif %}
+            </div>
+
+            <div class="rounded-div">
+                <h1>Grant New Permissions</h1>
+                <form action="/newPerms" method="POST" class="flexblock">
+                    <div>
+                        <label for="username">Staff Username</label><br/>
+                        <input type="text" name="username" placeholder="staff username"/>
+                    </div>
+                    <div>
+                        <label for="permission">Permission</label><br/>
+                            <select name="permission" required>
+                                <option disabled selected value="permission">permission</option>
+                                <option value="admin">admin</option>
+                                <option value="operator">operator</option>
+                            </select>
+                    </div>
+                    <div>
+                        <br/> 
+                        <input type="submit" value = "Add Permission"/>
+                    </div>
+                </form>
+                {% if msgPerms %}
+                    <p class="error">{{msgPerms}}</p>
+                {% endif %}
+                {% if errorPerms %}
+                    <p class="error">Error: {{errorPerms}}</p>
+                {% endif %}
+            </div>
+
+            <div class="rounded-div">
+                <h1>Add Booking Agent</h1>
+                <form action="/newAgent" method="POST" class="flexblock">
+                    <div>
+                        <label for="email">Booking Agent Email</label><br/>
+                        <input type="email" name = "email" placeholder="email"/>
+                    </div>
+                    <div>
+                        <br/> 
+                        <input type="submit" value = "Add Agent"/>
+                    </div>
+                </form>
+                {% if msgAgent %}
+                    <p class="error">{{msgAgent}}</p>
+                {% endif %}
+                {% if errorAgent %}
+                    <p class="error">Error: {{errorAgent}}</p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

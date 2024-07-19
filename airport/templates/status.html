@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Air Ticket Reservation System</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="navigation flexblock">
+            <div class="home-link">
+                {% if session['account'] == 'staff' or session['account'] == 'admin' or session['account'] == 'operator' or session['account'] == 'admin-operator' %}
+                    <a href="/view">SkyTravels ✈︎</a>
+                {% else %}
+                    <a href="/">SkyTravels ✈︎</a>
+                {% endif %}
+            </div>
+            <div class="misc-link">
+                <a href=""></a>
+            </div>            
+        </div>
+
+        <h1>Upcoming Flight Information</h1>
+    <table>
+        {% if data %}
+        <tr>
+            <th> Flight Number </th>
+            <th> Airline Name </th>
+            <th> Airline Number </th>
+            <th> Departure Airport </th>
+            <th> Departure Time </th>
+            <th> Arrival Airport </th>
+            <th> Arrival Time </th>
+            <th> Price </th>
+            <th> Status </th>
+            <th></th>
+        </tr>
+        {% endif %}
+
+        {% for row in data %}
+            <tr>
+                <th>{{ row['flight_num'] }}</th> 
+                <th>{{ row['airline_name'] }}</th>
+                <th>{{row['airplane_id']}}</th>
+                <th>{{ row['departure_airport'] }}</th>
+                <th>{{row['departure_time']}}</th>
+                <th>{{row['arrival_airport']}}</th>
+                <th>{{row['arrival_time']}}</th>
+                <th>${{row['price']}}</th>
+                <th>{{row['flight_status']}}</th>
+                <!-- <th>
+                    <form action="/purchase" method="POST">
+                        <input type="hidden" name = "airlineName" value = "{{ row['airline_name'] }}" required/>
+                        <input type="hidden" name = "flightNum" value = "{{ row['flight_num'] }}" required/>
+                        <input type="hidden" name = "airplaneNum" value = "{{row['airplane_id']}}" required />
+                        <input type="submit" value = "BOOK NOW" />
+                    </form>
+                </th> -->
+            </tr>
+        {% endfor %}
+        </table>
+        {% if error %}
+            <p class="error"><strong>Error:</strong> {{error}}</p>
+        {% endif %}
+
+    </div>
+</body>
+</html>

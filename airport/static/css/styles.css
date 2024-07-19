@@ -1,0 +1,130 @@
+body, html{
+	box-sizing: border-box;
+	background-color: #191929;
+	color: whitesmoke;
+	padding: 0px;
+	margin: 0px;
+	text-align: center;
+}
+
+.main-container {
+    width: 100%;
+    min-height: 100vh;
+}
+
+.flexblock{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.flexblock h2{
+    margin: 5px;
+    font-size: 20px;
+}
+
+.navigation{
+	position: -webkit-sticky;
+	position: sticky;
+	z-index:1;
+	top: 0;
+	background-color: rgb(85, 109, 161);
+    width: 100%;
+    padding: 10px 0px 10px 0px;
+    text-align: center;
+}
+
+a{
+    color: #aac0f1;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.navigation a{
+    padding: 5px;
+	color: whitesmoke;
+    font-size: 20px;
+}
+
+.home-link{
+    width: 48%;
+    text-align: left;
+}
+
+.home-link a{
+    font-size: 30px;
+    text-shadow: 1px 1px 5px black
+}
+
+.home-link a:hover{
+    text-decoration: none;
+}
+
+.misc-link{
+    width: 48%;
+    text-align: right;
+}
+
+.left {
+    align-items: left;
+}
+
+.right {
+    align-items: right;
+}
+
+.center {
+    margin: auto;
+    align-items: center;
+    text-align: center;
+}
+
+table {
+    margin: auto;
+}
+
+th {
+    padding: 5px;
+}
+
+.rounded-div{
+    width: 50%;
+    border: 1px solid rgb(104, 129, 188);
+    background-color: rgba(48, 91, 192, 0.062);
+    border-radius: 5px;
+    padding: 20px;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.rounded-div div{
+    margin: 3px;
+    text-align: left;
+}
+
+.rounded-div h1{
+    margin-top: 5px;
+}
+
+label{
+    width: 100%;
+    margin: 0px;
+    text-align: left;
+}
+
+h1 {
+    margin-bottom: 0px;
+}
+
+h2 {
+    margin-bottom: 0px;
+}
+
+h3 {
+    margin: 0px;
+}

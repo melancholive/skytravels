@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Air Ticket Reservation System</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="navigation flexblock">
+            <div class="home-link">
+                <a href="/view">SkyTravels ✈︎</a>
+            </div>
+            <div class="misc-link">
+                {% if not (account == "staff") %}
+                    <a href="/homeStaff">Home</a>
+                {% endif %}
+                <a href="/analytics">Analytics</a>
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
+
+        <h1>Welcome to SkyTravels, {{account}}.</h1>
+        
+        <div class="rounded-div">
+            <h1>Airline Flight Information</h1>
+            <form action="/results" method="POST" class="flexblock">
+                <div>
+                    <label for="location">Location</label><br/>
+                    <select id="location" name="location" required>
+                        <option disabled selected value>location</option>
+                        <option value="city">city</option>
+                        <option value="airport">airport</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="origin">Place of Origin</label><br/>
+                    <input type="text" name = "origin" placeholder="origin" required/>
+                </div>
+                <div>
+                    <label for="destination">Place of Destination</label><br/>
+                    <input type="text" name = "destination" placeholder="destination" required/>
+                </div>
+                <div>
+                    <label for="date">Date of Flight</label><br/>
+                    <input type="date" name = "date" required/>
+                </div>
+                <div>
+                    <br/> 
+                    <input type="submit" value = Search />
+                </div>
+                {% if error %}
+                    <p class="error"><strong>Error:</strong> {{error}}</p>
+                {% endif %}
+                </form>
+                <a href="/check">Check flight status</a> 
+        </div>
+        <div class="rounded-div">
+            <h1>Upcoming Flight Information</h1>
+            {% if not data %}
+                <h3 class="error center"><strong></strong>The airline has no upcoming flights</h3>
+            {% endif %}
+            <h3>From {{start}} to {{end}}</h3>
+            <table>
+                {% if data %}
+                <tr>
+                    <th> Flight Number </th>
+                    <th> Airline Number </th>
+                    <th> Departure Airport </th>
+                    <th> Departure Time </th>
+                    <th> Arrival Airport </th>
+                    <th> Arrival Time </th>
+                    <th> Price </th>
+                    <th></th>
+                </tr>
+                {% endif %}
+                {% for row in data %}
+                    <tr>
+                        <th>{{ row['flight_num'] }}</th> 
+                        <th>{{row['airplane_id']}}</th>
+                        <th>{{ row['departure_airport'] }}</th>
+                        <th>{{row['departure_time']}}</th>
+                        <th>{{row['arrival_airport']}}</th>
+                        <th>{{row['arrival_time']}}</th>
+                        <th>${{row['price']}}</th>
+                        <th>
+                            <form action="/viewFlight" method="POST">
+                                <input type="hidden" name = "airlineName" value = "{{ row['airline_name'] }}" required/>
+                                <input type="hidden" name = "flightNum" value = "{{ row['flight_num'] }}" required/>
+                                <input type="submit" value = "VIEW" />
+                            </form>
+                        </th>
+                    </tr>
+                {% endfor %}
+                </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Air Ticket Reservation System</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="navigation flexblock">
+            <div class="home-link">
+                <a href="/">SkyTravels ✈︎</a>
+            </div>
+            {% if login %}
+                <div class="misc-link">
+                    <a href="/logout">Logout</a>
+                </div>
+            {% else %}
+            <div class="misc-link">
+                <a href="/login">Login</a>
+            </div>
+            {% endif %}        </div>
+
+        <div class="rounded-div">
+            <h1>Client Upcoming Flight Information</h1>
+            <table>
+                {% if data %}
+                <tr>
+                    <th> Flight Number </th>
+                    <th> Airline Name </th>
+                    <th> Airplane Number </th>
+                    <th> Departure Airport </th>
+                    <th> Departure Time </th>
+                    <th> Arrival Airport </th>
+                    <th> Arrival Time </th>
+                    <th> Price </th>
+                    <th> Customer </th>
+                    <!-- <th> Status </th> -->
+                </tr>
+                {% else %}
+                    <p class="error"><strong></strong> "Your customers have no upcoming flights"</p>
+                {% endif %}
+
+                {% for row in data %}
+                    <tr>
+                        <th>{{ row['flight_num'] }}</th> 
+                        <th>{{ row['airline_name'] }}</th>
+                        <th>{{row['airplane_id']}}</th>
+                        <th>{{ row['departure_airport'] }}</th>
+                        <th>{{row['departure_time']}}</th>
+                        <th>{{row['arrival_airport']}}</th>
+                        <th>{{row['arrival_time']}}</th>
+                        <th>${{row['price']}}</th>
+                        <th>{{row['cust_email']}}</th>
+                        <!-- <th>{{row['flight_status']}}</th> -->
+                    </tr>
+                {% endfor %}
+                </table>
+            </div>
+
+            <div class="rounded-div">
+                <h1>Commission Information</h1>
+                <h3>From {{commission['start']}} to {{commission['end']}}</h3>
+                
+                <form action="/homeAgent" method="POST" class="flexblock">
+                    <div>
+                        <label for="start">Start Date</label>
+                        <input type ="date" name="start" required/>
+                    </div>
+                    <div>
+                        <label for="end">End Date</label>
+                        <input type="date" name ="end" required/>
+                    </div>
+                    <div>
+                        <input type="submit" value = Calculate />
+                    </div>
+                </form>
+
+                <!-- format: {start, end, total, average, tickets} -->
+                <div class="flexblock">
+                    <h2>Total Commission: {{commission['total']}}</h2>
+                    <h2>Average Commission: {{commission['average']}}</h2>
+                    <h2>Total Tickets Sold: {{commission['tickets']}}</h2>
+                </div>
+            </div>
+
+            <div class="flexblock">
+                <div class="rounded-div">
+                    <h1>Top Customers - Tickets</h1>
+                    <table>
+                        {% if tickets %}
+                            <tr>
+                                <th>Customer Email</th>
+                                <th>Tickets Purchased</th>
+                            </tr>
+                        {% else %}
+                            <p class="error"><strong></strong> 'You have not sold any tickets in the past six months'</p>
+                        {% endif %}
+                        {% for row in tickets %}
+                        <tr>
+                            <th>{{row['cust_email']}}</th>
+                            <th>{{row['tickets']}}</th>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    
+                </div>
+                <div class="rounded-div">
+                    <h1>Top Customers - Commission</h1>
+                    <table>
+                        {% if total %}
+                            <tr>
+                                <th>Customer Email</th>
+                                <th>Commission Earned</th>
+                            </tr>
+                        {% else %}
+                            <p class="error"><strong></strong> 'You have not made any commission in the past year'</p>
+                        {% endif %}
+                        {% for row in total %}
+                            <tr>
+                                <th>{{row['cust_email']}}</th>
+                                <th>${{ '%.2f' % row['total'] }}</th>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            
+    </div>
+</body>
+</html>

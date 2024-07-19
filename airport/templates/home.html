@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Air Ticket Reservation System</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="navigation flexblock">
+            <div class="home-link">
+                <a href="/">SkyTravels ✈︎</a>
+            </div>
+            {% if login %}
+                <div class="misc-link">
+                    <a href="/logout">Logout</a>
+                </div>
+            {% else %}
+            <div class="misc-link">
+                <a href="/login">Login</a>
+            </div>
+            {% endif %}        </div>
+
+        <div class="rounded-div">
+            <h1>Upcoming Flight Information</h1>
+            <table>
+                {% if data %}
+                <tr>
+                    <th> Flight Number </th>
+                    <th> Airline Name </th>
+                    <th> Airline Number </th>
+                    <th> Departure Airport </th>
+                    <th> Departure Time </th>
+                    <th> Arrival Airport </th>
+                    <th> Arrival Time </th>
+                    <th> Price </th>
+                    <th></th>
+                    <!-- <th> Status </th> -->
+                </tr>
+                {% else %}
+                    <p class="error"><strong></strong>You have no upcoming flights</p>
+                {% endif %}
+
+                {% for row in data %}
+                    <tr>
+                        <th>{{ row['flight_num'] }}</th> 
+                        <th>{{ row['airline_name'] }}</th>
+                        <th>{{row['airplane_id']}}</th>
+                        <th>{{ row['departure_airport'] }}</th>
+                        <th>{{row['departure_time']}}</th>
+                        <th>{{row['arrival_airport']}}</th>
+                        <th>{{row['arrival_time']}}</th>
+                        <th>${{row['price']}}</th>
+                        <!-- <th>{{row['flight_status']}}</th> -->
+                    </tr>
+                {% endfor %}
+                </table>
+            </div>
+            <div class="rounded-div">
+                <h1>Total Spent in Past Year: ${{total['total']['sum']}}</h1>
+                <h3>From {{total['start']}} to {{total['end']}}</h3>
+            </div>
+            <div class="rounded-div">
+                <h1>Track My Spending</h1>
+                <h3>From {{start}} to {{end}}</h3>
+                <form action="/home" method="POST" class="flexblock">
+                    <div>
+                        <label for="start">Start Date</label>
+                        <input type ="date" name="start" required/>
+                    </div>
+                    <div>
+                        <label for="end">End Date</label>
+                        <input type="date" name ="end" required/>
+                    </div>
+                    <div>
+                        <input type="submit" value = Calculate />
+                    </div>
+                </form>
+                <table>
+                    {% if spent %}
+                    <tr>
+                        <th> Month / Year </th>
+                        <th> Total Spent </th>
+                    </tr>
+                    {% else %}
+                        <p class="error"><strong></strong>You have not purchased any flights recently</p>
+                    {% endif %}
+    
+                    {% for row in spent %}
+                        <tr>
+                            <th>{{ "%02d" % row['MONTH(booking_date)']}}/{{row['YEAR(booking_date)'] }}</th> 
+                            <th>${{ row['SUM(price)'] }}</th>
+                        </tr>
+                    {% endfor %}
+                    </table>
+            </div>
+    </div>
+</body>
+</html>

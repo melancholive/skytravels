@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Air Ticket Reservation System</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="navigation flexblock">
+            <div class="home-link">
+                <a href="/">SkyTravels ✈︎</a>
+            </div>
+            <div class="misc-link"></div>
+        </div>
+
+        <div class="rounded-div">
+          <div>
+              <h1 class="flexblock">Staff Account Login</h1>
+              <div class="flexblock">
+                <div>
+                  <a href="/login">Customer Login</a>
+                </div>
+                <div>
+                  | <a href="/loginAgent">Booking Agent Login</a>
+                </div>
+              </div>
+          </div>
+                      
+          <form action="/loginStaffAuth" method="POST" class="flexblock">
+              <div class="flexblock">
+                <div>
+                  <div class="flexblock">
+                    <div>
+                        <label for="text">Username</label><br/>
+                        <input type="text" name="username" placeholder="username" required/>
+                    </div>
+                    <div>
+                        <label for="password">Password</label><br/>
+                        <input type="password" name="password" placeholder="password" required/>
+                    </div>
+                    <div>
+                      <br/>
+                      <input type="submit" value = "Login" />
+                    </div>
+                  </div>
+                  <div>
+                    <div class="left">Don't have an account? <a href="/registerStaff">Register Here</a></div>   
+                    {% if msg %}
+                        <p class="error"><strong></strong> {{msg}}</p>
+                    {% endif %}
+                    {% if error %}
+                        <p class="error"><strong>Error:</strong> {{error}}</p>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>              
+          </form>
+
+      </div>
+
+    </div>
+</body>
+</html>

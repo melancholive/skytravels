@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Air Ticket Reservation System</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="navigation flexblock">
+            <div class="home-link">
+                <a href="/">SkyTravels ✈︎</a>
+            </div>
+            <div class="misc-link">
+                {% if not (account == "staff") %}
+                    <a href="/homeStaff">Home</a>
+                {% endif %}
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
+
+        <h1>Customer Upcoming Flight Information</h1>
+    <table>
+        {% if data %}
+        <tr>
+            <th> Flight Number </th>
+            <th> Airline Name </th>
+            <th> Airline Number </th>
+            <th> Departure Airport </th>
+            <th> Departure Time </th>
+            <th> Arrival Airport </th>
+            <th> Arrival Time </th>
+            <th> Price </th>
+            <th> Status </th>
+        </tr>
+        {% endif %}
+        {% for row in data %}
+            <tr>
+                <th>{{ row['flight_num'] }}</th> 
+                <th>{{ row['airline_name'] }}</th>
+                <th>{{row['airplane_id']}}</th>
+                <th>{{ row['departure_airport'] }}</th>
+                <th>{{row['departure_time']}}</th>
+                <th>{{row['arrival_airport']}}</th>
+                <th>{{row['arrival_time']}}</th>
+                <th>${{row['price']}}</th>
+                <th>{{row['flight_status']}}</th>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Air Ticket Reservation System</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="navigation flexblock">
+            <div class="home-link">
+                <a href="/">SkyTravels ✈︎</a>
+            </div>
+            {% if login %}
+                <div class="misc-link">
+                    <a href="/home">Home</a>
+                    <a href="/logout">Logout</a>
+                </div>
+            {% else %}
+            <div class="misc-link">
+                <a href="/login">Login</a>
+            </div>
+            {% endif %}
+        </div>
+
+
+    </div>
+</body>
+</html>

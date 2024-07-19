@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Air Ticket Reservation System</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="navigation flexblock">
+            <div class="home-link">
+                {% if session['account'] == 'staff' or session['account'] == 'admin' or session['account'] == 'operator' or session['account'] == 'admin-operator' %}
+                    <a href="/view">SkyTravels ✈︎</a>
+                {% else %}
+                    <a href="/">SkyTravels ✈︎</a>
+                {% endif %}
+            </div>
+            {% if login %}
+                <div class="misc-link">
+                    {% if account=="customer" %}
+                        <a href="/home">Home</a>
+                    {% elif account == "agent"%}
+                        <a href="/homeAgent">Home</a>
+                    {% else %}
+                        <a href="/homeStaff">Home</a>
+                    {% endif %}
+                    <a href="/logout">Logout</a>
+                </div>
+            {% else %}
+                <div class="misc-link">
+                    <a href="/login">Login</a>
+                </div>
+            {% endif %}            
+        </div>
+
+        <h1>Check Your Flight Status</h1>
+
+        <div class="rounded-div">
+            <form action="/status" method="POST" class="flexblock">
+                <div>
+                    <label for="airline">Airline</label><br/>
+                    <input type="text" name = "airline" placeholder="airline" required/>
+                </div>
+                <div>
+                    <label for="flight">Flight Number</label><br/>
+                    <input type="number" name = "flight" placeholder="5 digit flight number" required/>
+                </div>
+                <div>
+                    <label for="date">Date of Flight</label><br/>
+                    <input type="date" name = "date" required/>
+                </div>
+                <div>
+                    <br/>
+                    <select id="time" name="time" required>
+                        <option disabled selected value>flight</option>
+                        <option value="departure">departure</option>
+                        <option value="arrival">arrival</option>
+                    </select>
+                </div>
+                <div>
+                    <br>
+                    <input type="submit" value = Search />
+                </div>
+                {% if error %}
+                <p class="error"><strong>Error:</strong> {{error}}</p>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</body>
+</html>

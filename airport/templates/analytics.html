@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Air Ticket Reservation System</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="navigation flexblock">
+            <div class="home-link">
+                <a href="/view">SkyTravels ✈︎</a>
+            </div>
+                <div class="misc-link">
+                    {% if not (account == "staff") %}
+                        <a href="/homeStaff">Home</a>
+                    {% endif %}
+                    <a href="/logout">Logout</a>
+                </div>
+        </div>
+
+        <div class="rounded-div">
+            <h1>Top Agent Performers</h1>
+            <table>
+                <br/>
+                <h3>Past Month Ticket Sales</h3>
+                {% if not(ticketMonth) %}
+                <p class="error">Your agents have not sold any tickets in the past month</p>
+                {% endif %}
+                {% for row in ticketMonth %}
+                    <tr>
+                        <th>{{row['booking_agent_email']}}</th>
+                        <th>{{row['tickets']}}</th>
+                    </tr>
+                {% endfor %}
+            </table>
+            <table>
+                <br/>
+                <h3>Past Year Ticket Sales</h3>
+                {% if not(ticketYear) %}
+                    <p class="error">Your agents have not sold any tickets in the past year</p>
+                {% endif %}
+                {% for row in ticketYear %}
+                    <tr>
+                        <th>{{row['booking_agent_email']}}</th>
+                        <th>{{row['tickets']}}</th>
+                    </tr>
+                {% endfor %}
+            </table>
+            <table>
+                <br/>
+                <h3>Past Year Commission</h3>
+                {% if not(commission) %}
+                    <p class="error">Your agents have not earned any commission in the past year</p>
+                {% endif %}
+                {% for row in commission %}
+                    <tr>
+                        <th>{{row['booking_agent_email']}}</th>
+                        <th>${{"{:,.2f}".format(row['commission'])}}</th>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+
+        <div class="rounded-div">
+            <h1>Customer Information</h1>
+            {% if customer %}
+                <p>Most Frequent Customer: {{customer['cust_email']}}</p>
+            {% else %}
+                <p>This airline does not have any customers</p>
+            {% endif %}
+            <form action="/analytics" method="POST" class="flexblock">
+                <div>
+                    <label for="email">Customer Email</label><br/>
+                    <input type="email" name="email" placeholder="customer email"/>
+                </div>
+                <div>
+                    <br/>
+                    <input type="submit" value = "View Flights" />
+                </div>
+            </form>
+            {% if msgCust %}
+            <p class="error">{{msgCust}}</p>
+            {% endif %}
+        </div>
+
+        <div class="rounded-div">
+            {% if start %}
+                <h3>From {{start}} to {{end}}</h3>
+            {% endif %}
+            <h1>{{soldRange}} Total Tickets Sold</h1>
+            <h3>Last Month: {{soldMonth}} | Last Year: {{soldYear}}</h3>
+            <br/>
+
+            <table>
+                {% if monthlySales %}
+                    <tr>
+                        <th>Month/Year</th>
+                        <th>Ticket Sales</th>
+                    </tr>
+                {% else %}
+                    <p class="error">The airline has not made any ticket sales</p>
+                {% endif %}
+                {% for row in monthlySales %}
+                    <tr>
+                        <th>{{row['month']}}/{{row['year']}}</th>
+                        <th>{{row['sales']}}</th>
+                    </tr>
+                {% endfor %}
+            </table>
+            <br/>
+            <h3>Check Sales Based on Date</h3>
+            <form action="/analytics" method="POST" class="flexblock">
+                <div>
+                    <label for="start">Start Date</label><br/>
+                    <input type="date" name="start"/>
+                </div>
+                <div>
+                    <label for="end">End Date</label><br/>
+                    <input type="date" name="end"/>
+                </div>
+                <div>
+                    <br/>
+                    <input type="submit" value="Calculate"/>
+                </div>
+            </form>
+        </div>
+
+        <div class="rounded-div">
+            <h1>Comparison of Revenue Earned</h1>
+            <table>
+                <tr>
+                    <th></th>
+                    <th>Direct Sales</th>
+                    <th>Indirect Sales</th>
+                </tr>
+                <tr>
+                    <th>Past Month</th>
+                    <th>${{monthDirect}}</th>
+                    <th>${{monthIndirect}}</th>
+                </tr>
+                <tr>
+                    <th>Past Year</th>
+                    <th>${{yearDirect}}</th>
+                    <th>${{yearIndirect}}</th>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="rounded-div">
+            <h1>Top Destinations</h1>
+            <table>
+                <tr>
+                    <th>One Month Ago</th>
+                    {% if not(oneMonth) %}
+                        <th>No trips were booked during this time</th>
+                    {% endif %}
+                    {% for row in oneMonth %}
+                        {% if row['airport_city'] %}
+                            <th>{{row['airport_city']}}</th>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>Two Months Ago</th>
+                    {% if not(twoMonth) %}
+                        <th>No trips were booked during this time</th>
+                    {% endif %}
+                    {% for row in twoMonth %}
+                        {% if row['airport_city'] %}
+                            <th>{{row['airport_city']}}</th>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>Three Months Ago</th>
+                    {% if not(threeMonth) %}
+                        <th>No trips were booked during this time</th>
+                    {% endif %}
+                    {% for row in threeMonth %}
+                        {% if row['airport_city'] %}
+                            <th>{{row['airport_city']}}</th>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>One Year Ago</th>
+                    {% if not(lastYear) %}
+                        <th>No trips were booked during this time</th>
+                    {% endif %}
+                    {% for row in lastYear %}
+                        {% if row['airport_city'] %}
+                            <th>{{row['airport_city']}}</th>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

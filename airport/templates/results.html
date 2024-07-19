@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Air Ticket Reservation System</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="navigation flexblock">
+            <div class="home-link">
+                {% if not(account) or account =='agent' or account=='customer' %}
+                    <a href="/">SkyTravels ✈︎</a>
+                {% else %}
+                    <a href="/view">SkyTravels ✈︎</a>
+                {% endif %}
+            </div>
+            {% if login %}
+                <div class="misc-link">
+                    <a href="/home">Home</a>
+                    <a href="/logout">Logout</a>
+                </div>
+            {% else %}
+            <div class="misc-link">
+                <a href="/login">Login</a>
+            </div>
+            {% endif %}
+        </div>
+
+        <h1>Upcoming Flight Information</h1>
+    <table>
+        {% if data %}
+        <tr>
+            <th> Flight Number </th>
+            <th> Airline Name </th>
+            <th> Airline Number </th>
+            <th> Departure Airport </th>
+            <th> Departure Time </th>
+            <th> Arrival Airport </th>
+            <th> Arrival Time </th>
+            <th> Price </th>
+            <th></th>
+            <!-- <th> Status </th> -->
+        </tr>
+        {% endif %}
+
+        {% for row in data %}
+            <tr>
+                <th>{{ row['flight_num'] }}</th> 
+                <th>{{ row['airline_name'] }}</th>
+                <th>{{row['airplane_id']}}</th>
+                <th>{{ row['departure_airport'] }}</th>
+                <th>{{row['departure_time']}}</th>
+                <th>{{row['arrival_airport']}}</th>
+                <th>{{row['arrival_time']}}</th>
+                <th>${{row['price']}}</th>
+                <!-- <th>{{row['flight_status']}}</th> -->
+                {% if account == 'customer' or account == 'agent' %}
+                    <th>
+                        <form action="/purchase" method="POST">
+                            <input type="hidden" name = "airlineName" value = "{{ row['airline_name'] }}" required/>
+                            <input type="hidden" name = "flightNum" value = "{{ row['flight_num'] }}" required/>
+                            <input type="hidden" name = "airplaneNum" value = "{{row['airplane_id']}}" required />
+                            {% if account == 'agent' %}
+                                <input type="'email" name = "custEmail" placeholder = "customer email"/>
+                            {% endif %}
+                            <input type="submit" value = "BOOK NOW" />
+                        </form>
+                    </th>
+                {% elif account %}
+                    <th>
+                        <form action="/viewFlight" method="POST">
+                            <input type="hidden" name = "airlineName" value = "{{ row['airline_name'] }}" required/>
+                            <input type="hidden" name = "flightNum" value = "{{ row['flight_num'] }}" required/>
+                            <input type="submit" value = "VIEW" />
+                        </form>
+                    </th>
+                {% else %}
+                    <p>To purchase tickets, you must be logged into the account</p>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </table>
+        {% if error %}
+            <p class="error"><strong>Error:</strong> {{error}}</p>
+        {% endif %}
+
+    </div>
+</body>
+</html>

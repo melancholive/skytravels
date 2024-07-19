@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Air Ticket Reservation System</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="navigation flexblock">
+            <div class="home-link">
+                <a href="/">SkyTravels ✈︎</a>
+            </div>
+            {% if login %}
+                <div class="misc-link">
+                    <a href="/home">Home</a>
+                    <a href="/logout">Logout</a>
+                </div>
+            {% else %}
+            <div class="misc-link">
+                <a href="/login">Login</a>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="rounded-div flexblock">
+            <div>
+                <h1 class="flexblock">Staff Account Registration</h1>
+                <a href="/register">Customer Registeration</a>
+                | <a href="/registerStaff">Airline Staff Registeration</a>
+            </div>
+                        
+            <form action="/registerStaffAuth" method="POST" class="flexblock">
+                
+                <div class="flexblock">
+                    <div>
+                        <label for="text">First Name</label><br/>
+                        <input type="text" name="first" placeholder="first name" required/>
+                    </div>
+                    <div>
+                        <label for="text">Last Name</label><br/>
+                        <input type="text" name="last" placeholder="last name" required/>
+                    </div>
+                    <div>
+                        <label for="dob">Date of Birth</label><br/>
+                        <input type="date" name="dob" placeholder="date of birth" required/>
+                    </div>
+                </div>
+
+                
+                <div class="flexblock">
+                    <div>
+                        <label for="text">Username</label><br/>
+                        <input type="text" name="username" placeholder="username" required/>
+                    </div>
+                    <div>
+                        <label for="password">Password</label><br/>
+                        <input type="password" name="password" placeholder="password" required/>
+                    </div>
+                    <div>
+                        <label for="text">Airline</label><br/>
+                        <input type="text" name="airline" placeholder="airline" required/>
+                    </div>
+                </div>
+                
+                <div>
+                    <br/>
+                    <input type="submit" value = Register />
+                </div>
+
+                {% if error %}
+                <p class="error"><strong>Error:</strong> {{error}}</p>
+                {% endif %}
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>
